@@ -1,12 +1,12 @@
 import axios from 'axios'
 
-import { API_BASE_URL_LOCAL } from '@/pages/Auth/const'
+import { API_BASE_URL} from './const'
 
-export const apiLocal = axios.create({
-  baseURL: API_BASE_URL_LOCAL
+export const api = axios.create({
+  baseURL: API_BASE_URL
 })
 
-apiLocal.interceptors.response.use(
+api.interceptors.response.use(
   (res) => res.data,
   (error) => Promise.reject(error)
 )
