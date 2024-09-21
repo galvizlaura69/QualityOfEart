@@ -1,0 +1,91 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+    :root {
+      --page-background: 150 1 95;
+      --background: 0 0 100;
+      --foreground: 0, 0%, 0%, 1;
+  
+      --card: 0, 0%, 100%, 1;
+      --card-foreground: 240 10% 3.9%;
+  
+      --popover: 0 0% 100%;
+      --popover-foreground: 240 10% 3.9%;
+  
+      --primary: 67 85% 50%;
+      --primary-50: 68, 78%, 95%;  /* #f9fbea */
+      --primary-100: 67, 70%, 89%; /* #f2f6d1 */
+      --primary-200: 68, 68%, 78%; /* #e3eda9 */
+      --primary-300: 69, 62%, 67%; /* #cfe076 */
+      --primary-400: 69, 55%, 60%; /* #c1d562 */
+      --primary-500: 72, 59%, 44%; /* #9ab42e */
+      --primary-600: 72, 62%, 34%; /* #799020 */
+      --primary-700: 73, 54%, 27%; /* #5c6e1d */
+      --primary-800: 73, 49%, 22%; /* #4a581c */
+      --primary-900: 73, 42%, 19%; /* #3f4b1c */
+      --primary-950: 73, 53%, 9%;  /* #20290a */
+      --primary-foreground: 72, 62%, 34%;
+      
+      --secondary-50: 220, 80%, 96%;    /* #f2f5fc */
+      --secondary-100: 220, 70%, 91%;   /* #e2e9f7 */
+      --secondary-200: 220, 60%, 84%;   /* #ccd8f1 */
+      --secondary-300: 220, 50%, 73%;   /* #a9bfe7 */
+      --secondary-400: 220, 60%, 62%;   /* #809eda */
+      --secondary-500: 225, 50%, 56%;   /* #627fcf */
+      --secondary-600: 227, 52%, 49%;   /* #4e65c2 */
+      --secondary-700: 231, 45%, 43%;   /* #4455b1 */
+      --secondary-800: 234, 42%, 35%;   /* #3c4791 */
+      --secondary-900: 236, 27%, 26%;   /* #323b6e */
+      --secondary-950: 235, 18%, 14%;   /* #242847 */
+      --secondary-foreground: 0, 0%, 100%;
+
+      --tertiary: 189 81% 44%;
+      --tertiary-foreground: 0 0% 100%;
+
+      --quaternary: 229 100% 96%;
+      --quaternary-foreground: 229 52% 25%;
+
+      --active-50: 154, 59%, 95%; /* #f0f9f5 */
+      --active-100: 154, 52%, 88%; /* #dbf0e5 */
+      --active-200: 154, 43%, 78%; /* #b9e1d0 */
+      --active-300: 154, 39%, 67%; /* #8bcab2 */
+      --active-400: 154, 33%, 56%; /* #5aad91 */
+      --active-500: 154, 43%, 41%; /* #3a9579 */
+      --active-600: 154, 47%, 32%; /* #28735e */
+      --active-700: 154, 47%, 27%; /* #205c4c */
+      --active-800: 154, 47%, 23%; /* #1b4a3e */
+      --active-900: 154, 47%, 20%; /* #173d34 */
+      --active-950: 154, 47%, 10%; /* #0c221e */
+      --active-foreground: 154, 47%, 32%; /* #28735e */
+
+      --inactive-50: 0, 100%, 97%; /* #fdf3f3 */
+    --inactive-100: 0, 89%, 95%; /* #fce5e4 */
+    --inactive-200: 0, 79%, 91%; /* #facfce */
+    --inactive-300: 0, 72%, 84%; /* #f6adab */
+    --inactive-400: 0, 79%, 64%; /* #ec6763 */
+    --inactive-500: 0, 75%, 60%; /* #e35450 */
+    --inactive-600: 0, 66%, 49%; /* #d03732 */
+    --inactive-700: 0, 61%, 42%; /* #ae2b27 */
+    --inactive-800: 0, 61%, 34%; /* #902724 */
+    --inactive-900: 0, 61%, 30%; /* #782624 */
+    --inactive-950: 0, 79%, 15%; /* #410f0e */
+    --inactive-foreground: 0, 66%, 49%; /* #d03732 */
+  
+      --muted: 240 4.8% 95.9%;
+      --muted-foreground: 240 3.8% 46.1%;
+  
+      --accent: 210 40% 96.1%;
+      --accent-foreground: 0 0% 0% 1;
+  
+      --destructive: 0 84.2% 60.2%;
+      --destructive-foreground: 0 0% 98%;
+  
+      --border: 240 5.9% 90%;
+      --input: 240 5.9% 90%;
+      --ring: 240 10% 3.9%;
+  
+      --radius: 0.75rem;
+    }
+  }
