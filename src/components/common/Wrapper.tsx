@@ -10,7 +10,7 @@ export const Wrapper = ({ children, className }: WrapperProps) => {
   return (
     <div
       className={cn(
-        'mx-auto w-full px-5 md:max-w-[37rem] lg:max-w-[55rem] xl:max-w-[78rem] 2xl:max-w-[90rem]',
+        'mx-auto w-full px-10',
         className
       )}
     >
