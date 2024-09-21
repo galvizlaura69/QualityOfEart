@@ -1,4 +1,4 @@
-import { Wrapper } from "@/components"
+import { DatePickerWithRange, Wrapper } from "@/components"
 
 export const Home: React.FC = () => {
 
@@ -7,7 +7,7 @@ export const Home: React.FC = () => {
       <div className="flex w-full ">
         <div className=" w-[40%] h-[53rem]">
           <p>imagen escala</p>
-          <p>Filtro por fecha</p>
+          <DatePickerWithRange/>
           <p>Filtro por escala</p>
           <p>tabla con filtros</p>
         </div>
