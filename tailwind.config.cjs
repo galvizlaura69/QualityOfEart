@@ -158,6 +158,11 @@ module.exports = {
           fontSize: '2.5rem',
           lineHeight: '3.75rem',
           fontWeight: '700'
+        },
+        '.title-2xl': {
+          fontSize: '3.5rem',
+          lineHeight: '4.75rem',
+          fontWeight: '700'
         }
       }
 
