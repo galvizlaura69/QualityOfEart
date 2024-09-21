@@ -6,12 +6,14 @@ export const Home: React.FC = () => {
     <Wrapper>
       <div className="flex w-full ">
         <div className=" w-[40%] h-[53rem]">
-          <p>tabla con filtros</p>
+          <p>imagen escala</p>
           <p>Filtro por fecha</p>
           <p>Filtro por escala</p>
+          <p>tabla con filtros</p>
         </div>
         <div className=" w-[60%] h-[53rem]">
-          <p>graficas </p>
+          <p>graficas dona</p>
+          <p>graficas linea</p>
         </div>
       </div >
     </Wrapper >
