@@ -1,6 +1,6 @@
 export const Home: React.FC = () => {
 
   return (
-    <p>HOME</p>
+    <p className="text-black">HOME</p>
   )
 }

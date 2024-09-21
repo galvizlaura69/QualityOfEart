@@ -13,7 +13,7 @@ export const MenuApp: React.FC = () => {
       <div className="w-full mx-auto flex items-center justify-between  ">
         <div
           className="text-white text-lg font-semibold cursor-pointer"
-          onClick={() => handleRedirect('/')}
+          onClick={() => handleRedirect('/inicio')}
         >
           LOGO
         </div>
@@ -32,7 +32,7 @@ export const MenuApp: React.FC = () => {
 
           <DropdownMenuContent>
             <DropdownMenuItem onClick={() => handleRedirect('/perfil')}>Ver Perfil</DropdownMenuItem>
-            <DropdownMenuItem onClick={() => handleRedirect('/logout')}>Cerrar Sesión</DropdownMenuItem>
+            <DropdownMenuItem onClick={() => handleRedirect('/')}>Cerrar Sesión</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       </div>

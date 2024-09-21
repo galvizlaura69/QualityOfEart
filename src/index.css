@@ -2,6 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
+
+/* body{
+  background-color: rgba(0, 0, 0, 0.932);
+} */
+
 @layer base {
     :root {
       --page-background: 150 1 95;
