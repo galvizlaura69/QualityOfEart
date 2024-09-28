@@ -1,14 +1,20 @@
 
 import { useState } from 'react';
 import { FaEye } from 'react-icons/fa';
-import { Button, Input } from "@/components/ui"; 
+import { Button, Input } from "@/components/ui";
+import { useNavigate } from 'react-router-dom';
 
 export const LoginForm: React.FC = () => {
   const [passwordVisible, setPasswordVisible] = useState(false);
+  const navigate = useNavigate()
 
   const togglePasswordVisibility = () => {
     setPasswordVisible(!passwordVisible);
   };
+
+  const handleSuccess = (): void => {
+    navigate('/inicio')
+  }
 
   return (
     <div className="max-w-md mx-auto p-4">
@@ -17,10 +23,10 @@ export const LoginForm: React.FC = () => {
           <label htmlFor="email" className="block text-sm font-medium text-letf text-gray-700">
             Correo electrónico
           </label>
-          <Input 
-            id="email" 
-            type="email" 
-            placeholder="Ingrese su correo" 
+          <Input
+            id="email"
+            type="email"
+            placeholder="Ingrese su correo"
             className="mt-1 w-full p-2 border border-gray-300 rounded-md"
           />
         </div>
@@ -29,14 +35,14 @@ export const LoginForm: React.FC = () => {
             Contraseña
           </label>
           <div className="relative">
-            <Input 
-              id="password" 
-              type={passwordVisible ? 'text' : 'password'} 
-              placeholder="Ingrese su contraseña" 
+            <Input
+              id="password"
+              type={passwordVisible ? 'text' : 'password'}
+              placeholder="Ingrese su contraseña"
               className="mt-1 w-full p-2 border border-gray-300 rounded-md"
             />
-            <div 
-              className="absolute inset-y-0 right-0 pr-3 flex items-center cursor-pointer" 
+            <div
+              className="absolute inset-y-0 right-0 pr-3 flex items-center cursor-pointer"
               onClick={togglePasswordVisibility}
             >
               {passwordVisible ? (
@@ -48,7 +54,8 @@ export const LoginForm: React.FC = () => {
           </div>
         </div>
         <div className="mt-6">
-          <Button className="w-full p-3 bg-green-500 text-white rounded-md hover:bg-green-600 mb-6 text-lg">
+          <Button className="w-full p-3 bg-green-500 text-white rounded-md hover:bg-green-600 mb-6 text-lg"
+            onClick={() => handleSuccess()}>
             Iniciar sesión
           </Button>
         </div>

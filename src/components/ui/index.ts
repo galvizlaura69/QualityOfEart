@@ -1,6 +1,6 @@
 export * from './DropdownMenu'
 export * from './button'
-export * from './input'
+export * from './Input'
 export * from './Popover'
 export * from './Calendar'
 export * from './DatePiker'
