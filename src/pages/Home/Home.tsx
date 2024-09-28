@@ -15,10 +15,10 @@ export const Home: React.FC = () => {
 
 
   return (
-    <Wrapper className="w-full">
+    <Wrapper className="w-full ">
       <div className="grid gap-4 grid-cols-11 w-full">
         <div className="col-span-5">
-          <Card >
+          <Card className="max-h-screen">
           <p>imagen escala</p>
             <div className="grid grid-cols-5 gap-2 mb-5 items-center">
               <div className="col-span-2">
@@ -44,6 +44,7 @@ export const Home: React.FC = () => {
               </div>
             </div>
             <TablaLevel />
+
           </Card>
         </div>
         <div className="col-span-6">

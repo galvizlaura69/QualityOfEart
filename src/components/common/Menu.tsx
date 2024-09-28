@@ -9,7 +9,7 @@ export const MenuApp: React.FC = () => {
   };
 
   return (
-    <nav className="bg-gradient-to-r sticky top-0 from-blue-300 via-green-400 to-green-600 py-3 px-14 shadow-md">
+    <nav className="bg-gradient-to-r sticky top-0 from-blue-300 via-green-400 to-green-600 py-3 px-14 shadow-md z-60">
       <div className="w-full mx-auto flex items-center justify-between  ">
         <div
           className="text-white text-lg font-semibold cursor-pointer"
