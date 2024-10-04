@@ -1,6 +1,7 @@
 import { Button } from '@/components/ui/button';
 import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem } from '@/components/ui/DropdownMenu';
 import { FaUserCircle } from 'react-icons/fa';
+import avatarImage from "../../assets/avatar.png"
 
 export const MenuApp: React.FC = () => {
 
@@ -25,7 +26,11 @@ export const MenuApp: React.FC = () => {
                 <p>Bienvenid@</p>
                 <span className='text-lg text-white'>Laura Galviz</span>
               </div>
-              <FaUserCircle size={45} style={{ color: '#ffffff' }} />
+              <img
+                src={avatarImage}
+                alt="Avatar"
+                className="w-12 h-12 rounded-full border-2 border-gray-300"
+              />
             </Button>
 
           </DropdownMenuTrigger>
