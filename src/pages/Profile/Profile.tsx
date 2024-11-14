@@ -14,10 +14,6 @@ export const Profile: React.FC = () => {
 
   const handleUpdateProfile = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Nombre actualizado:", name);
-    console.log("Contraseña actualizada:", password);
-    console.log("Sexo:", gender);
-    console.log("Fecha de nacimiento:", birthDate);
     setIsEditing(false);
   };
 

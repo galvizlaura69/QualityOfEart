@@ -4,8 +4,7 @@ import { useState } from "react";
 import { LoginForm, RegisterForm } from "@/components";
 
 export const Login: React.FC = () => {
-
-  const [isRegister, setIsRegister] = useState(false)
+  const [isRegister, setIsRegister] = useState(false);
 
   return (
     <div className='relative flex min-h-screen w-full items-center'>
@@ -24,22 +23,21 @@ export const Login: React.FC = () => {
               </p>
             </div>
             <div className='mt-2 mb-5'>
-              {!isRegister ?
-                (
-                  <>
-                    <LoginForm />
-                    <button onClick={() => { setIsRegister(true) }} className="text-sm text-[#676767]">
-                      No tiene una cuenta <span className="hover:text-green-600">regitrese aqui</span>
-                    </button>
-                  </>
-                ) :
-                (<>
-                  <RegisterForm/>
+              {!isRegister ? (
+                <>
+                  <LoginForm />
+                  <button onClick={() => { setIsRegister(true) }} className="text-sm text-[#676767]">
+                    No tiene una cuenta <span className="hover:text-green-600">registrese aqui</span>
+                  </button>
+                </>
+              ) : (
+                <>
+                  <RegisterForm setIsRegister={setIsRegister} />
                   <button onClick={() => { setIsRegister(false) }} className="text-sm text-[#676767]">
                     Tiene una cuenta <span className="hover:text-green-600">ingrese aqui</span>
                   </button>
-                </>)
-              }
+                </>
+              )}
             </div>
           </div>
         </div>
