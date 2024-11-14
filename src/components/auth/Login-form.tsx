@@ -11,7 +11,7 @@ export const LoginForm: React.FC = () => {
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [alert, setAlert] = useState<{ message: string; type: 'success' | 'error' | null }>({ message: '', type: null });
-  const [emailError, setEmailError] = useState<string>(''); // Estado para el error del correo
+  const [emailError, setEmailError] = useState<string>(''); 
   const navigate = useNavigate();
 
   const togglePasswordVisibility = () => {
@@ -19,7 +19,7 @@ export const LoginForm: React.FC = () => {
   };
 
   const validateEmail = (email: string) => {
-    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zAYZ0-9.-]+\.[a-zA-Z]{2,}$/;
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     return emailRegex.test(email);
   };
 
@@ -27,7 +27,6 @@ export const LoginForm: React.FC = () => {
     const value = e.target.value;
     setEmail(value);
     
-    // Validación en tiempo real del correo
     if (!validateEmail(value)) {
       setEmailError('Por favor ingrese un correo electrónico válido');
     } else {
@@ -47,6 +46,7 @@ export const LoginForm: React.FC = () => {
       const response = await UserGet(email);
       if (response) {
         if (response?.user?.password === password) {
+          localStorage.setItem('user', JSON.stringify(response));
           setAlert({ message: 'Login exitoso, redirigiendo...', type: 'success' });
           setTimeout(() => {
             navigate('/inicio');
@@ -79,7 +79,6 @@ export const LoginForm: React.FC = () => {
             onChange={handleEmailChange}
             className="mt-1 w-full p-2 border border-gray-300 rounded-md"
           />
-          {/* Mostrar error de correo en tiempo real */}
           {emailError && <p className="text-sm text-red-600 mt-2">{emailError}</p>}
         </div>
         <div className="mb-4">

@@ -1,133 +1,153 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import avatarImage from "../../assets/avatar.png";
 import { Wrapper } from "@/components";
-import { FaEdit } from "react-icons/fa";
-import { Button } from "@/components";
+import { FaEdit, FaEye } from "react-icons/fa";
+import { Button, Input } from "@/components/ui";
+import { UserUpdate } from "@/services/UserUdpdate";
+import { Alerts } from "@/components/ui/Alert";
 
 export const Profile: React.FC = () => {
-  const [name, setName] = useState<string>("Laura Galviz");
-  const [email] = useState<string>("galvizlaura69@gmail.com");
-  const [password, setPassword] = useState<string>("");
-  const [gender, setGender] = useState<string>("");
-  const [birthDate, setBirthDate] = useState<string>("");
-  const [isEditing, setIsEditing] = useState<boolean>(false);
+  const storedUser = localStorage.getItem("user");
+  const user = storedUser ? JSON.parse(storedUser) : null;
 
-  const handleUpdateProfile = (e: React.FormEvent) => {
+  const [name, setName] = useState<string>(user?.user.name || "");
+  const [email] = useState<string>(user?.user?.email || "");
+  const [password, setPassword] = useState<string>(user?.user?.password || "");
+  const [isEditing, setIsEditing] = useState<boolean>(false);
+  const [passwordVisible, setPasswordVisible] = useState<boolean>(false);
+  const [alert, setAlert] = useState<{ message: string; variant: 'error' | 'success' | 'info' } | null>(null);
+
+  const togglePasswordVisibility = () => {
+    setPasswordVisible((prev) => !prev);
+  };
+
+  useEffect(() => {
+    if (alert) {
+      const timer = setTimeout(() => {
+        setAlert(null);
+      }, 2000);
+      return () => clearTimeout(timer);
+    }
+  }, [alert]);
+
+  const handleUpdateProfile = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsEditing(false);
+    if (!name.trim() || !password.trim()) {
+      setAlert({
+        message: "El nombre y la contraseña son requeridos.",
+        variant: "error"
+      });
+      return;
+    }
+
+    try {
+      const updatedData = await UserUpdate(email, { name, password });
+      console.log("Perfil actualizado:", updatedData);
+      localStorage.setItem("user", JSON.stringify(updatedData));
+      setAlert({
+        message: "Perfil actualizado exitosamente",
+        variant: "success"
+      });
+      setIsEditing(false);
+    } catch (error) {
+      console.error("Error al actualizar el perfil", error);
+
+      setAlert({
+        message: "Hubo un error al actualizar el perfil.",
+        variant: "error"
+      });
+    }
   };
 
   return (
-    <Wrapper className="w-full ">
+    <Wrapper className="w-full">
       <div className="flex">
         <div className="w-1/2 flex flex-col justify-center items-center p-6 bg-white shadow-md">
-          <div className="flex gap-5 justify-between w-full">
-            <h2 className="text-3xl font-bold mb-4 text-center text-primary-500">Perfil</h2>
+          <div className="flex justify-between items-end w-[80%] ">
+            <h2 className="text-5xl font-bold text-primary-500 ">Perfil</h2>
             <div>
               {!isEditing && (
                 <button
                   onClick={() => setIsEditing(true)}
-                  className="mb-4 p-2 rounded-md text-gray-500 hover:bg-gray-100"
+                  className=" rounded-md text-gray-500 hover:bg-gray-100"
                 >
-                  <FaEdit size={20} />
+                  <FaEdit size={30} />
                 </button>
               )}
             </div>
           </div>
-          <form onSubmit={handleUpdateProfile} className="w-full">
+         
+          <form className="w-[80%]  mb-4 mt-5">
             <div className="mb-4">
-              <label className="block text-sm font-medium text-gray-700" htmlFor="name">
-                Nombre
+              <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+                Correo electrónico
               </label>
-              <input
-                type="text"
-                id="name"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                className={`mt-1 block w-full border border-gray-300 rounded-md p-2 ${!isEditing ? "bg-gray-100" : ""}`}
-                placeholder="Ingresa tu nombre"
-                required
-                disabled={!isEditing}
-              />
-            </div>
-            <div className="mb-4">
-              <label className="block text-sm font-medium text-gray-700" htmlFor="email">
-                Correo Electrónico
-              </label>
-              <input
-                type="email"
+              <Input
                 id="email"
+                type="email"
+                placeholder="Ingrese su correo"
                 value={email}
                 disabled
-                className="mt-1 block w-full border border-gray-300 rounded-md p-2 bg-gray-100"
+                className="mt-1 w-full p-2 border border-gray-300 rounded-md"
               />
             </div>
             <div className="mb-4">
-              <label className="block text-sm font-medium text-gray-700" htmlFor="gender">
-                Sexo
+              <label htmlFor="name" className="block text-sm font-medium text-gray-700">
+                Nombre
               </label>
-              <select
-                id="gender"
-                value={gender}
-                onChange={(e) => setGender(e.target.value)}
-                className={`mt-1 block w-full border border-gray-300 rounded-md p-2 ${!isEditing ? "bg-gray-100" : ""}`}
+              <Input
+                id="name"
+                type="text"
+                placeholder="Ingrese su nombre"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
                 disabled={!isEditing}
-              >
-                <option value="" disabled>
-                  Selecciona tu sexo
-                </option>
-                <option value="male">Masculino</option>
-                <option value="female">Femenino</option>
-                <option value="other">Otro</option>
-              </select>
-            </div>
-            <div className="mb-4">
-              <label className="block text-sm font-medium text-gray-700" htmlFor="birthDate">
-                Fecha de Nacimiento
-              </label>
-              <input
-                type="date"
-                id="birthDate"
-                value={birthDate}
-                onChange={(e) => setBirthDate(e.target.value)}
-                className={`mt-1 block w-full border border-gray-300 rounded-md p-2 ${!isEditing ? "bg-gray-100" : ""}`}
-                required
-                disabled={!isEditing}
+                className="mt-1 w-full p-2 border border-gray-300 rounded-md"
               />
             </div>
-            <div className="mb-4">
-              <label className="block text-sm font-medium text-gray-700" htmlFor="password">
-                Nueva Contraseña
+            <div className="mb-2">
+              <label htmlFor="password" className="block text-sm font-medium text-gray-700">
+                Contraseña
               </label>
-              <input
-                type="password"
-                id="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                className={`mt-1 block w-full border border-gray-300 rounded-md p-2 ${!isEditing ? "bg-gray-100" : ""}`}
-                placeholder="Ingresa tu nueva contraseña"
-                required
-                disabled={!isEditing}
-              />
-            </div>
-            {isEditing && (
-              <div className="flex flex-col gap-5 mt-4">
-                <Button
-                  type="submit"
-                  className="w-full bg-primary-500 text-white font-bold py-2 rounded-md hover:bg-primary-300 transition"
+              <div className="relative">
+                <Input
+                  id="password"
+                  type={passwordVisible ? 'text' : 'password'}
+                  placeholder="Ingrese su contraseña"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  disabled={!isEditing}
+                  className="mt-1 w-full p-2 border border-gray-300 rounded-md"
+                />
+                <div
+                  className="absolute inset-y-0 right-0 pr-3 flex items-center cursor-pointer"
+                  onClick={togglePasswordVisibility}
                 >
-                  Actualizar Perfil
-                </Button>
-                <Button
-                  type="button"
-                  className="w-full bg-red-500 text-white font-bold py-2 rounded-md hover:bg-red-300 transition"
-                  onClick={() => setIsEditing(false)}
-                >
-                  Cancelar
-                </Button>
+                  <FaEye className="h-5 w-5 text-gray-500" />
+                </div>
               </div>
-            )}
+            </div>
           </form>
+          {alert && <Alerts title={alert.message} variant={alert.variant} />}
+          {isEditing && (
+            <div className="flex flex-col gap-5 w-[80%]">
+              <Button
+                type="submit"
+                className="w-full bg-primary-500 text-white font-bold py-2 rounded-md hover:bg-primary-300 transition"
+                onClick={handleUpdateProfile}
+                disabled={!name.trim() || !password.trim()}
+              >
+                Actualizar Perfil
+              </Button>
+              <Button
+                type="button"
+                className="w-full bg-red-500 text-white font-bold py-2 rounded-md hover:bg-red-300 transition"
+                onClick={() => setIsEditing(false)}
+              >
+                Cancelar
+              </Button>
+            </div>
+          )}
         </div>
         <div className="w-1/2 flex justify-center items-center bg-gray-100">
           <img
