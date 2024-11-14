@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
 import avatarImage from "../../assets/avatar.png";
 import { Wrapper } from "@/components";
-import { FaEdit, FaEye } from "react-icons/fa";
+import { FaEdit, FaEye, FaTrashAlt } from "react-icons/fa";
 import { Button, Input } from "@/components/ui";
 import { UserUpdate } from "@/services/UserUdpdate";
+import { UserDeleted } from "@/services/DeletePut";
 import { Alerts } from "@/components/ui/Alert";
 
 export const Profile: React.FC = () => {
@@ -59,6 +60,34 @@ export const Profile: React.FC = () => {
     }
   };
 
+  const handleDeleteAccount = async () => {
+    const confirmDelete = window.confirm("¿Estás seguro de que deseas eliminar tu cuenta?");
+    if (confirmDelete) {
+      try {
+        const email = user?.user?.email;
+        if (email) {
+          const response = await UserDeleted(email);
+          console.log(response,"jjj")
+            setAlert({
+              message: "Cuenta eliminada exitosamente",
+              variant: "success"
+            });
+            setTimeout(() => {
+              localStorage.removeItem("user");
+              window.location.href = "/";
+            }, 2000);
+          }
+      } catch (error) {
+        console.error("Error al eliminar la cuenta:", error);
+        setAlert({
+          message: "Hubo un problema al eliminar tu cuenta. Por favor, intenta más tarde.",
+          variant: "error"
+        });
+      }
+    }
+  };
+
+
   return (
     <Wrapper className="w-full">
       <div className="flex">
@@ -69,14 +98,14 @@ export const Profile: React.FC = () => {
               {!isEditing && (
                 <button
                   onClick={() => setIsEditing(true)}
-                  className=" rounded-md text-gray-500 hover:bg-gray-100"
+                  className="rounded-md text-gray-500 hover:bg-gray-100"
                 >
                   <FaEdit size={30} />
                 </button>
               )}
             </div>
           </div>
-         
+
           <form className="w-[80%]  mb-4 mt-5">
             <div className="mb-4">
               <label htmlFor="email" className="block text-sm font-medium text-gray-700">
@@ -148,6 +177,15 @@ export const Profile: React.FC = () => {
               </Button>
             </div>
           )}
+          <div className="flex items-center gap-2 mt-4">
+            <span>¿Quieres darte de baja? Haz clic aquí.</span>
+            <button
+              onClick={handleDeleteAccount}
+              className="text-red-600 hover:text-red-800"
+            >
+              <FaTrashAlt size={20} />
+            </button>
+          </div>
         </div>
         <div className="w-1/2 flex justify-center items-center bg-gray-100">
           <img

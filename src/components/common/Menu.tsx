@@ -8,6 +8,16 @@ export const MenuApp: React.FC = () => {
     window.location.href = path;
   };
 
+  const handleLogout = () => {
+    localStorage.removeItem("user");
+    setTimeout(() => {
+      window.location.href = "/"; 
+    }, 1000); 
+  };
+
+  const storedUser = localStorage.getItem("user");
+  const user = storedUser ? JSON.parse(storedUser) : null;
+
   return (
     <nav className="bg-gradient-to-r sticky top-0 from-blue-300 via-green-400 to-green-600 py-3 px-14 shadow-md z-60">
       <div className="w-full mx-auto flex items-center justify-between">
@@ -30,7 +40,7 @@ export const MenuApp: React.FC = () => {
             <Button className="pl-5 gap-2 min-w-30 h-14 bg-transparent">
               <div className='block text-xl mr-4 leading-[1] text-green-300'>
                 <p>Bienvenid@</p>
-                <span className='text-lg text-white'>Laura Galviz</span>
+                <span className='text-lg text-white'>{user?.user?.name}</span>
               </div>
               <img
                 src={avatarImage}
@@ -42,7 +52,7 @@ export const MenuApp: React.FC = () => {
 
           <DropdownMenuContent>
             <DropdownMenuItem onClick={() => handleRedirect('/perfil')}>Ver Perfil</DropdownMenuItem>
-            <DropdownMenuItem onClick={() => handleRedirect('/')}>Cerrar Sesión</DropdownMenuItem>
+            <DropdownMenuItem onClick={handleLogout}>Cerrar Sesión</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
