@@ -1,11 +1,12 @@
 import React, { useEffect, useRef } from 'react';
 import { format } from "date-fns";
 import { Chart, LineController, LineElement, PointElement, LinearScale, CategoryScale, Tooltip, Legend } from 'chart.js';
+import annotationPlugin from 'chartjs-plugin-annotation';
 
-Chart.register(LineController, LineElement, PointElement, LinearScale, CategoryScale, Tooltip, Legend);
+Chart.register(LineController, LineElement, PointElement, LinearScale, CategoryScale, Tooltip, Legend, annotationPlugin);
 
 interface LineChartProps {
-  data: {createdAt: string; level: string;}[];
+  data: { createdAt: string; level: string; }[];
 }
 
 const LineChart: React.FC<LineChartProps> = ({ data }) => {
@@ -14,20 +15,20 @@ const LineChart: React.FC<LineChartProps> = ({ data }) => {
 
   useEffect(() => {
     if (chartInstanceRef.current) {
-      chartInstanceRef.current.destroy(); 
+      chartInstanceRef.current.destroy();
     }
 
     const labels = data.map(entry => format(new Date(entry.createdAt), "hh:mm a"));
     const levels = data.map(entry => {
       switch (entry.level) {
         case 'alto':
-          return 3; 
+          return 3;
         case 'medio':
-          return 2; 
+          return 2;
         case 'bajo':
-          return 1; 
+          return 1;
         default:
-          return 0; 
+          return 0;
       }
     });
 
@@ -42,10 +43,10 @@ const LineChart: React.FC<LineChartProps> = ({ data }) => {
               label: 'Niveles',
               data: levels,
               fill: true,
-              backgroundColor: 'rgba(99, 102, 241, 0.2)', 
-              borderColor: 'rgba(99, 102, 241, 1)', 
+              backgroundColor: 'rgba(99, 102, 241, 0.2)',
+              borderColor: 'rgba(99, 102, 241, 1)',
               borderWidth: 2,
-              tension: 0.4, 
+              tension: 0.4,
             },
           ],
         },
@@ -69,6 +70,32 @@ const LineChart: React.FC<LineChartProps> = ({ data }) => {
                 },
               },
             },
+            x: {
+              type: 'category',
+              labels: labels,
+            },
+          },
+          plugins: {
+            annotation: {
+              annotations: [
+                {
+                  type: 'line',
+                  scaleID: 'x',
+                  value: labels[labels.length - 1], // Puedes cambiar este valor para marcar otro momento específico
+                  borderColor: 'red',
+                  borderWidth: 2,
+                  label: {
+                    content: 'Evento',
+                    position: 'start',
+                    backgroundColor: 'rgba(255, 0, 0, 0.5)',
+                    color: '#fff',
+                    font: {
+                      size: 12,
+                    },
+                  },
+                },
+              ],
+            },
           },
         },
       });
@@ -82,7 +109,7 @@ const LineChart: React.FC<LineChartProps> = ({ data }) => {
   }, [data]);
 
   return (
-    <div className="p-4 bg-white rounded-lg shadow-md"> 
+    <div className="p-4 bg-white rounded-lg shadow-md">
       <canvas ref={chartRef} className="w-full h-64"></canvas>
     </div>
   );
