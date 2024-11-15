@@ -63,9 +63,9 @@ export const Home: React.FC = () => {
           <Card className="max-h-screen">
             <h1 className="font-bold text-2xl text-center pb-7">Escala niveles del Co2</h1>
             <div className="grid grid-cols-1 gap-2 mb-5">
-              <LightBulbIcon color="bg-green-500" label="Bajo" />
-              <LightBulbIcon color="bg-yellow-500" label="Medio" />
-              <LightBulbIcon color="bg-red-500" label="Alto" />
+              <LightBulbIcon color="bg-green-500" label="Bajo < 200ppm" />
+              <LightBulbIcon color="bg-yellow-500" label="Medio < 700ppm" />
+              <LightBulbIcon color="bg-red-500" label="Alto > 700ppm" />
             </div>
             <div className="grid grid-cols-5 gap-2 mb-5 items-center">
               <div className="col-span-2">
@@ -78,10 +78,10 @@ export const Home: React.FC = () => {
                   </SelectTrigger>
                   <SelectContent>
                     <SelectGroup>
-                      <SelectItem value="todos">todos</SelectItem>
-                      <SelectItem value="bajo">bajo</SelectItem>
-                      <SelectItem value="medio">medio</SelectItem>
-                      <SelectItem value="alto">alto</SelectItem>
+                      <SelectItem value="todos">Todos</SelectItem>
+                      <SelectItem value="bajo">Bajo</SelectItem>
+                      <SelectItem value="medio">Medio</SelectItem>
+                      <SelectItem value="alto">Alto</SelectItem>
                     </SelectGroup>
                   </SelectContent>
                 </Select>
