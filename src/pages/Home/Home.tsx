@@ -1,7 +1,7 @@
-import { DatePickerWithRange, Wrapper } from "@/components";
+import { CardContent, DatePicker, Wrapper } from "@/components";
 import { Card } from "@/components";
 import { TablaLevel } from "@/components/common/TableLevel";
-import LineChart from "@/components/common/LineChart"; // Asegúrate de que la ruta sea correcta
+import LineChart from "@/components/common/LineChart";
 import {
   Select,
   SelectTrigger,
@@ -10,11 +10,13 @@ import {
   SelectGroup,
   SelectItem,
 } from "@/components/ui/select";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { format } from "date-fns";
 import BarChart from "@/components/common/BarChart";
+import { SensorGet } from "@/services/SensorGet";
 
 interface LightBulbIconProps {
-  color: string; 
+  color: string;
   label: string;
 }
 
@@ -26,34 +28,32 @@ const LightBulbIcon: React.FC<LightBulbIconProps> = ({ color, label }) => (
 );
 
 export const Home: React.FC = () => {
-  const [selectedLevel, setSelectedLevel] = useState<string>("Todos");
-  const [dateRange, setDateRange] = useState<{ from: Date | undefined; to: Date | undefined }>({
-    from: undefined,
-    to: undefined,
-  });
+  const [selectedLevel, setSelectedLevel] = useState<string>("todos");
+  const [dateRange, setDateRange] = useState<any>("");
+  const [sensorData, setSensorData] = useState<any>([]);
 
-  const data = [
-    { time: "08:30", date: "2024-09-27", level: "Alto", alert: "Alerta roja" },
-    { time: "09:15", date: "2024-09-27", level: "Medio", alert: "Alerta amarilla" },
-    { time: "10:00", date: "2024-09-27", level: "Bajo", alert: "Alerta verde" },
-    { time: "11:30", date: "2024-09-28", level: "Alto", alert: "Alerta roja" },
-    { time: "12:45", date: "2024-09-28", level: "Medio", alert: "Alerta amarilla" },
-    { time: "14:00", date: "2024-09-29", level: "Bajo", alert: "Alerta verde" },
-    { time: "15:30", date: "2024-09-29", level: "Alto", alert: "Alerta roja" },
-  ];
 
-  // Filtra los datos según el rango de fechas y el nivel seleccionado
-  const filteredData = data.filter(entry => {
-    const entryDate = new Date(entry.date);
-    const isWithinDateRange =
-      (!dateRange.from || entryDate >= dateRange.from) &&
-      (!dateRange.to || entryDate <= dateRange.to);
+  
+    const handleDateChange = (dateRange: any) => {
+    if (dateRange) {
+      const formattedDate = dateRange ? format(dateRange, 'yyyy-MM-dd') : 'N/A';
+      setDateRange(formattedDate)
+    }
+  };
 
-    const isLevelMatch =
-      selectedLevel === "Todos" || entry.level === selectedLevel;
-
-    return isWithinDateRange && isLevelMatch;
-  });
+  useEffect(() => {
+    const fetchSensorData = async () => {
+      try {
+        const response = await SensorGet(dateRange,selectedLevel);
+        setSensorData(response?.sensorData);
+      } catch (error) {
+        console.error("Error al obtener los datos de los sensores:", error);
+      }
+    };
+      fetchSensorData();
+      const intervalId = setInterval(fetchSensorData, 3000);
+    return () => clearInterval(intervalId);
+  }, [selectedLevel, dateRange]);
 
   return (
     <Wrapper className="w-full ">
@@ -69,7 +69,7 @@ export const Home: React.FC = () => {
             </div>
             <div className="grid grid-cols-5 gap-2 mb-5 items-center">
               <div className="col-span-2">
-                <DatePickerWithRange className="w-full" />
+                <DatePicker className="w-full" onChange={handleDateChange} />
               </div>
               <div className="col-span-2">
                 <Select onValueChange={setSelectedLevel}>
@@ -78,25 +78,27 @@ export const Home: React.FC = () => {
                   </SelectTrigger>
                   <SelectContent>
                     <SelectGroup>
-                      <SelectItem value="Todos">Todos</SelectItem>
-                      <SelectItem value="Bajo">Bajo</SelectItem>
-                      <SelectItem value="Medio">Medio</SelectItem>
-                      <SelectItem value="Alto">Alto</SelectItem>
+                      <SelectItem value="todos">todos</SelectItem>
+                      <SelectItem value="bajo">bajo</SelectItem>
+                      <SelectItem value="medio">medio</SelectItem>
+                      <SelectItem value="alto">alto</SelectItem>
                     </SelectGroup>
                   </SelectContent>
                 </Select>
               </div>
               <div className="col-span-1"></div>
             </div>
-            <TablaLevel selectedLevel={selectedLevel} dateRange={dateRange} />
+            <TablaLevel sensorData={sensorData} />
           </Card>
         </div>
         <div className="col-span-5">
           <Card className="mb-6">
-            <LineChart data={filteredData} />
+            {<LineChart data={sensorData} /> }
           </Card>
           <Card>
-            <BarChart  data={filteredData}/>
+            <CardContent>
+           {<BarChart data={sensorData} /> }
+           </CardContent>
           </Card>
         </div>
       </div>

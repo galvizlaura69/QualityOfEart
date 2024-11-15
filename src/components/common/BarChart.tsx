@@ -10,25 +10,25 @@ import {
 } from "chart.js";
 import { useMemo } from "react";
 
-interface DataEntry {
-  time: string;
-  date: string;
-  level: "Bajo" | "Medio" | "Alto";
-  alert: string;
+interface Sensor {
+  _id: string;
+  co2Level: number;
+  createdAt: string;
+  level: 'bajo' | 'medio' | 'alto';
 }
 
 interface BarChartProps {
-  data: DataEntry[];
+  data: Sensor[]
 }
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
 const BarChart: React.FC<BarChartProps> = ({ data }) => {
   const chartData = useMemo(() => {
-    const labels = [...new Set(data.map(entry => entry.date))];
-    const bajoCounts = labels.map(label => data.filter(entry => entry.date === label && entry.level === "Bajo").length);
-    const medioCounts = labels.map(label => data.filter(entry => entry.date === label && entry.level === "Medio").length);
-    const altoCounts = labels.map(label => data.filter(entry => entry.date === label && entry.level === "Alto").length);
+    const labels = [...new Set(data.map(entry => entry.createdAt))];
+    const bajoCounts = labels.map(label => data.filter(entry => entry.createdAt === label && entry.level === "bajo").length);
+    const medioCounts = labels.map(label => data.filter(entry => entry.createdAt === label && entry.level === "medio").length);
+    const altoCounts = labels.map(label => data.filter(entry => entry.createdAt === label && entry.level === "alto").length);
 
     return {
       labels,

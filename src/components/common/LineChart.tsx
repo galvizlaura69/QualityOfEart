@@ -1,10 +1,11 @@
 import React, { useEffect, useRef } from 'react';
+import { format } from "date-fns";
 import { Chart, LineController, LineElement, PointElement, LinearScale, CategoryScale, Tooltip, Legend } from 'chart.js';
 
 Chart.register(LineController, LineElement, PointElement, LinearScale, CategoryScale, Tooltip, Legend);
 
 interface LineChartProps {
-  data: { time: string; level: string; alert: string }[];
+  data: {createdAt: string; level: string;}[];
 }
 
 const LineChart: React.FC<LineChartProps> = ({ data }) => {
@@ -16,14 +17,14 @@ const LineChart: React.FC<LineChartProps> = ({ data }) => {
       chartInstanceRef.current.destroy(); 
     }
 
-    const labels = data.map(entry => entry.time);
+    const labels = data.map(entry => format(new Date(entry.createdAt), "hh:mm a"));
     const levels = data.map(entry => {
       switch (entry.level) {
-        case 'Alto':
+        case 'alto':
           return 3; 
-        case 'Medio':
+        case 'medio':
           return 2; 
-        case 'Bajo':
+        case 'bajo':
           return 1; 
         default:
           return 0; 
@@ -57,11 +58,11 @@ const LineChart: React.FC<LineChartProps> = ({ data }) => {
                 callback: (value) => {
                   switch (value) {
                     case 3:
-                      return 'Alto';
+                      return 'alto';
                     case 2:
-                      return 'Medio';
+                      return 'medio';
                     case 1:
-                      return 'Bajo';
+                      return 'bajo';
                     default:
                       return '';
                   }

@@ -1,27 +1,30 @@
 "use client";
 
 import * as React from "react";
-import { format, isAfter, subDays } from "date-fns";
+import { format, isAfter } from "date-fns";
 import { FaCalendar } from "react-icons/fa";
-import { DateRange } from "react-day-picker";
-
-import { cn } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
 import { Calendar } from "./Calendar";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "./Popover";
+import { Popover, PopoverContent, PopoverTrigger } from "./Popover";
+import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 
-export function DatePickerWithRange({
+interface DatePickerWithSingleDateProps {
+  onChange?: (date: Date | undefined) => void;
+  className: string;
+}
+
+export function DatePicker({
   className,
-}: React.HTMLAttributes<HTMLDivElement>) {
-  const today = new Date(); 
-  const [date, setDate] = React.useState<DateRange | undefined>({
-    from: subDays(today, 30), 
-    to: today, 
-  });
+  onChange,
+}: DatePickerWithSingleDateProps) {
+  const today = new Date();
+  const [date, setDate] = React.useState<Date>(today); 
+
+  React.useEffect(() => {
+    if (onChange) {
+      onChange(date); 
+    }
+  }, [date]);
 
   return (
     <div className={cn("grid gap-2", className)}>
@@ -36,25 +39,24 @@ export function DatePickerWithRange({
             )}
           >
             <FaCalendar className="mr-2 h-4 w-4" />
-            {date?.from ? (
-              date.to && 
-                <>
-                  {format(date.from, "LLL dd, y")} -{" "}
-                  {format(date.to, "LLL dd, y")}
-                </>
-             ): (<span>Pick a date</span>)
-            }
+            {date ? (
+              format(date, "LLL dd, y")
+            ) : (
+              <span></span>
+            )}
           </Button>
         </PopoverTrigger>
         <PopoverContent className="w-auto p-0" align="start">
           <Calendar
             initialFocus
-            mode="range"
-            defaultMonth={date?.from}
             selected={date}
-            onSelect={setDate}
-            numberOfMonths={2}
-            disabled={(date) => isAfter(date, new Date())}
+            onSelect={(newDate: Date | any) => {
+              if (!isAfter(newDate, today)) {
+                setDate(newDate);
+              }
+            }}
+            disabled={(date) => isAfter(date, today)} 
+            mode="single" 
           />
         </PopoverContent>
       </Popover>
