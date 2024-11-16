@@ -1,0 +1,5 @@
+- 1- Version de node.js 18.14.0
+- 2- git clone https://github.com/galvizlaura69/QualityOfEart
+- 3- pnpm i (instalar)
+- 4- pnpm run dev (Correr el proyecto)
+- 5- La aplicacion corre en el puerta 3000
